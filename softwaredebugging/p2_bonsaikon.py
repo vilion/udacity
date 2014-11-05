@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
+# -*- coding:utf-8
 # Simple Daikon-style invariant checker
 # Andreas Zeller, May 2012
 # Complete the provided code around lines 28 and 44
@@ -12,14 +12,17 @@ import sys
 import math
 import random
 
+
 def square_root(x, eps = 0.00001):
     assert x >= 0
     y = math.sqrt(x)
     assert abs(square(y) - x) <= eps
     return y
-    
+
+
 def square(x):
     return x * x
+
 
 # The Range class tracks the types and value ranges for a single variable.
 class Range:
@@ -29,6 +32,7 @@ class Range:
     
     # Invoke this for every value
     def track(self, value):
+        pass
         # YOUR CODE
             
     def __repr__(self):
@@ -84,5 +88,3 @@ for i in range(1, 10):
     z = square(z)
 sys.settrace(None)
 print invariants
-
-
