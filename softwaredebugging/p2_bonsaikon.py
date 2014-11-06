@@ -32,8 +32,8 @@ class Range:
     
     # Invoke this for every value
     def track(self, value):
-        pass
-        # YOUR CODE
+        self.min = min(self.min, value) if self.min != None else value
+        self.max = max(self.max, value)
             
     def __repr__(self):
         return repr(self.min) + ".." + repr(self.max)
@@ -49,12 +49,19 @@ class Invariants:
         
     def track(self, frame, event, arg):
         if event == "call" or event == "return":
-            # YOUR CODE HERE. 
+            for name, value in frame.f_locals.iteritems():
+                range = self.vars.setdefault(frame.f_code.co_name, {}).setdefault(event, {}).setdefault(name, Range())
+                range.track(value)
+            if event == "return":
+                range = self.vars.setdefault(frame.f_code.co_name, {}).setdefault(event, {}).setdefault("ret", Range())
+                range.track(arg)
+
+            # YOUR CODE HERE.
             # MAKE SURE TO TRACK ALL VARIABLES AND THEIR VALUES
             # If the event is "return", the return value
             # is kept in the 'arg' argument to this function.
             # Use it to keep track of variable "ret" (return)
-    
+
     def __repr__(self):
         # Return the tracked invariants
         s = ""
@@ -62,7 +69,7 @@ class Invariants:
             for event, vars in events.iteritems():
                 s += event + " " + function + ":\n"
                 # continue
-                
+
                 for var, range in vars.iteritems():
                     s += "    assert "
                     if range.min == range.max:
@@ -70,11 +77,11 @@ class Invariants:
                     else:
                         s += repr(range.min) + " <= " + var + " <= " + repr(range.max)
                     s += "\n"
-                
+
         return s
 
 invariants = Invariants()
-    
+
 def traceit(frame, event, arg):
     invariants.track(frame, event, arg)
     return traceit
