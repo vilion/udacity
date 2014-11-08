@@ -15,6 +15,8 @@ def test(s):
 
 def ddmin(s):
     assert test(s) == "FAIL"
+    inputed = s
+    failed = None
 
     n = 2     # Initial granularity
     while len(s) >= 2:
@@ -35,10 +37,11 @@ def ddmin(s):
 
         if not some_complement_is_failing:
             # YOUR CODE HERE
-            n = max(n-1, 1)
-            
-
-            
+            if failed is not None and failed == n:
+                return s
+            failed = n
+            n = max(n+1, len(inputed))
+            s = inputed
 
     return s
 
