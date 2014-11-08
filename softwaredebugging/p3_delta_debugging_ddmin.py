@@ -38,9 +38,11 @@ def ddmin(s):
         if not some_complement_is_failing:
             # YOUR CODE HERE
             if failed is not None and failed == n:
+                print n
+                print failed
                 return s
             failed = n
-            n = max(n+1, len(inputed))
+            n = min(n+1, len(inputed))
             s = inputed
 
     return s
