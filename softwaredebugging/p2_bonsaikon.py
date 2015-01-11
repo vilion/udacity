@@ -48,7 +48,13 @@ class Invariants:
         self.vars = {}
         
     def track(self, frame, event, arg):
+        # YOUR CODE
         if event == "call" or event == "return":
+            # YOUR CODE HERE.
+            # MAKE SURE TO TRACK ALL VARIABLES AND THEIR VALUES
+            # If the event is "return", the return value
+            # is kept in the 'arg' argument to this function.
+            # Use it to keep track of variable "ret" (return)
             for name, value in frame.f_locals.iteritems():
                 range = self.vars.setdefault(frame.f_code.co_name, {}).setdefault(event, {}).setdefault(name, Range())
                 range.track(value)
@@ -56,11 +62,6 @@ class Invariants:
                 range = self.vars.setdefault(frame.f_code.co_name, {}).setdefault(event, {}).setdefault("ret", Range())
                 range.track(arg)
 
-            # YOUR CODE HERE.
-            # MAKE SURE TO TRACK ALL VARIABLES AND THEIR VALUES
-            # If the event is "return", the return value
-            # is kept in the 'arg' argument to this function.
-            # Use it to keep track of variable "ret" (return)
 
     def __repr__(self):
         # Return the tracked invariants
